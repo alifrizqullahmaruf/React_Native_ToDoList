@@ -1,25 +1,33 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
-  // Object atau data yang akan di gunnakan untuk useState
-  const [name, setName] = React.useState('ALip');
-  const [person, setperson] = React.useState({name: "Badrun", age: "20"});
-
-  // Fungsi yang di panggi pada button
-  const clickHandler = () => {
-    setName("Alif Rizz");
-    setperson({name: "Badrun Rizz", age: "29"});
-  }
+  // Object atau data yang akan digunakan untuk useState
+  const [name, setName] = React.useState('');
+  const [age, setAge] = React.useState('');
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.boldText}>My name is {name}</Text>
-        <Text style={styles.boldText}>His name is {person.name} and his age is {person.age}</Text>
+      <View style={styles.inputContainer}>
+        <Text style={styles.boldText}>Input Name</Text>
+        <TextInput 
+          style={styles.input} 
+          placeholder='e.g. John Cena' 
+          onChangeText={(val) => setName(val)} 
+          multiline={false} // Set false agar tidak multiline
+        />
       </View>
-      <View style={styles.buttonContainer}>
-        <Button title='Add Some Rizzz' onPress={clickHandler} color="#841584"/>
+      <View style={styles.inputContainer}>
+        <Text style={styles.boldText}>Input Age</Text>
+        <TextInput 
+          style={styles.input} 
+          placeholder='e.g. 99' 
+          onChangeText={(val) => setAge(val)} 
+          keyboardType='numeric'
+        />
+      </View>
+      <View style={styles.resultContainer}>
+        <Text style={styles.resultText}>His name is {name} and his age is {age}</Text>
       </View>
     </View>
   );
@@ -32,24 +40,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20, // Padding horizontal agar konten tidak terlalu dekat dengan tepi layar
   },
-  header:{
-    backgroundColor: 'blue',
-    height: 100,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+  inputContainer: {
+    marginBottom: 20, // Memberi jarak antara input fields
   },
-  boldText:{
-    color: 'white',
+  resultContainer: {
+    marginTop: 20, // Memberi jarak antara input fields dengan hasil
+  },
+  boldText: {
+    color: 'black',
     fontWeight: 'bold',
     fontSize: 20,
-    textAlign: 'center',
+    marginBottom: 10, // Memberi jarak antara teks dengan input fields
   },
-  buttonContainer:{
-    marginTop: 20,
+  input: {
+    borderColor: '#777',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
     width: 200,
-    borderRadius: 10,
-    overflow: 'hidden',
+    height: 40,
+  },
+  resultText: {
+    color: 'black',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
