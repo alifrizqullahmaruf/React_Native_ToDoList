@@ -1,34 +1,30 @@
-import React from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
 
 export default function App() {
   // Object atau data yang akan digunakan untuk useState
-  const [name, setName] = React.useState('');
-  const [age, setAge] = React.useState('');
+  const [people, setPeople] = useState([
+    { name: 'shaun', key: '1' },
+    { name: 'yoshi', key: '2' },
+    { name: 'mario', key: '3' },
+    { name: 'luigi', key: '4' },
+    { name: 'peach', key: '5' },
+    { name: 'toad', key: '6' },
+    { name: 'bowser', key: '7' },
+  ]);
 
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <Text style={styles.boldText}>Input Name</Text>
-        <TextInput 
-          style={styles.input} 
-          placeholder='e.g. John Cena' 
-          onChangeText={(val) => setName(val)} 
-          multiline={false} // Set false agar tidak multiline
-        />
+        <Text style={styles.headline}>List and Scroll View</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.boldText}>Input Age</Text>
-        <TextInput 
-          style={styles.input} 
-          placeholder='e.g. 99' 
-          onChangeText={(val) => setAge(val)} 
-          keyboardType='numeric'
-        />
-      </View>
-      <View style={styles.resultContainer}>
-        <Text style={styles.resultText}>His name is {name} and his age is {age}</Text>
-      </View>
+      <ScrollView style={styles.scrollView}>
+        {people.map((item) => (
+          <View key={item.key} style={styles.item}>
+            <Text style={styles.text}>{item.name}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -38,33 +34,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20, // Padding horizontal agar konten tidak terlalu dekat dengan tepi layar
+    margin: 16,
+  },
+  headline: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 16,
   },
   inputContainer: {
-    marginBottom: 20, // Memberi jarak antara input fields
+    margin: 16,
   },
-  resultContainer: {
-    marginTop: 20, // Memberi jarak antara input fields dengan hasil
+  scrollView: {
+    marginTop: 16,
   },
-  boldText: {
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginBottom: 10, // Memberi jarak antara teks dengan input fields
+  item: {
+    marginTop: 32,
+    padding: 50,
+    backgroundColor: 'aqua',
+    borderRadius: 10,
+    // alignItems: 'center',
   },
-  input: {
-    borderColor: '#777',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    width: 200,
-    height: 40,
-  },
-  resultText: {
-    color: 'black',
-    fontSize: 18,
-    textAlign: 'center',
+  text: {
+    fontSize: 25,
   },
 });
