@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
   // Object atau data yang akan digunakan untuk useState
@@ -18,13 +18,18 @@ export default function App() {
       <View style={styles.inputContainer}>
         <Text style={styles.headline}>List and Scroll View</Text>
       </View>
-      <ScrollView style={styles.scrollView}>
-        {people.map((item) => (
-          <View key={item.key} style={styles.item}>
+
+      <FlatList
+        style={styles.listContainer}
+        keyExtractor={(item) => item.key}
+        data={people}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
             <Text style={styles.text}>{item.name}</Text>
           </View>
-        ))}
-      </ScrollView>
+        )}
+      />
+
     </View>
   );
 }
@@ -45,17 +50,19 @@ const styles = StyleSheet.create({
   inputContainer: {
     margin: 16,
   },
-  scrollView: {
+  listContainer: {
     marginTop: 16,
   },
   item: {
-    marginTop: 32,
-    padding: 50,
+    marginTop: 16,
+    padding: 20,
     backgroundColor: 'aqua',
     borderRadius: 10,
-    // alignItems: 'center',
   },
   text: {
-    fontSize: 25,
+    fontSize: 18,
+    fontSize:24,
+    padding: 32,
+    
   },
 });
