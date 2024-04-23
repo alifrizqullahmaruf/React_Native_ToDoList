@@ -1,6 +1,9 @@
+// App.js
+
 import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import Header from "./components/hearder";
+import TodoItems from "./components/TodoItems";
 
 export default function App() {
   const [listTask, setListTask] = useState([
@@ -9,6 +12,12 @@ export default function App() {
     { task: "Blender (Kampus)", key: "3" },
   ]);
 
+  const selectHandler = (key) => {
+    setListTask((prevTask) => {
+      return prevTask.filter((task) => task.key !== key);
+    });
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -16,13 +25,9 @@ export default function App() {
       <View style={styles.content}>
         {/* List */}
         <View style={styles.listContainer}>
-          <FlatList 
+          <FlatList
             data={listTask}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text style={styles.text}>{item.task}</Text>
-              </View>
-            )}
+            renderItem={({ item }) => <TodoItems items={item} selectHandler={() => selectHandler(item.key)} />}
           />
         </View>
       </View>
@@ -41,17 +46,5 @@ const styles = StyleSheet.create({
   listContainer: {
     marginTop: 16,
     flex: 1, // Memastikan FlatList mengisi seluruh ruang yang tersedia di dalam content
-  },
-  item: {
-    margin: 8,
-    padding: 20,
-    backgroundColor: "aqua",
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 18,
-    textAlign: "center",
   },
 });
