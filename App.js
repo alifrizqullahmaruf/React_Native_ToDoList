@@ -1,50 +1,69 @@
-// App.js
-
-import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import Header from "./components/hearder";
-import TodoItems from "./components/TodoItems";
+import React, { useState } from 'react';
+import { StyleSheet, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import Header from './components/Header';
+import TodoItem from './components/TodoItem';
+import AddTodo from './components/AddTodo';
 
 export default function App() {
-  const [listTask, setListTask] = useState([
-    { task: "Makan mie", key: "1" },
-    { task: "Project", key: "2" },
-    { task: "Blender (Kampus)", key: "3" },
+  const [todos, setTodos] = useState([
+    { text: 'buy coffee', key: '1' },
+    { text: 'create an app', key: '2' },
+    { text: 'play on the switch', key: '3' },
   ]);
 
-  const selectHandler = (key) => {
-    setListTask((prevTask) => {
-      return prevTask.filter((task) => task.key !== key);
+  // fungsi yang menghapu list dengan mengembalikan key yang tidak sama
+  const pressHandler = (key) => {
+    setTodos(prevTodos => {
+      return prevTodos.filter(todo => todo.key != key);
     });
   };
 
+  const submitHandler = (text) => {
+    if(text.length > 3){
+      setText('');
+      setTodos(prevTodos => {
+        return [
+          { text, key: Math.random().toString() },
+          ...prevTodos
+        ];
+      });
+    } else {
+      Alert.alert('OOPS', 'Todo must be over 3 characters long', [
+        {text: 'Understood', onPress: () => console.log('alert closed') }
+      ]);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <Header />
-      <View style={styles.content}>
-        {/* List */}
-        <View style={styles.listContainer}>
-          <FlatList
-            data={listTask}
-            renderItem={({ item }) => <TodoItems items={item} selectHandler={() => selectHandler(item.key)} />}
-          />
+    // Keyboard.dismiss -> ketika diclik bagian luar maka keyboard akan dismis
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss() }>
+      <View style={styles.container}>
+        <Header />
+        <View style={styles.content}>
+          <AddTodo submitHandler={submitHandler} />
+          <View style={styles.list}>
+            <FlatList
+              data={todos}
+              renderItem={({ item }) => (
+                <TodoItem item={item} pressHandler={pressHandler} />
+              )}
+            />
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   content: {
-    flex: 1, // Untuk memastikan konten mengisi seluruh ruang yang tersedia
+    padding: 40,
   },
-  listContainer: {
-    marginTop: 16,
-    flex: 1, // Memastikan FlatList mengisi seluruh ruang yang tersedia di dalam content
+  list: {
+    marginTop: 20,
   },
 });
