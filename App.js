@@ -28,8 +28,8 @@ export default function App() {
         ];
       });
     } else {
-      Alert.alert('OOPS', 'Todo must be over 3 characters long', [
-        {text: 'Understood', onPress: () => console.log('alert closed') }
+      Alert.alert("Oops!" /* for the title */,'Put todo over 3 letters!'/* for the content */,[
+        { text: 'Oke'/* for the botton close */, onPress: () => console.log("Alert Closed!") },
       ]);
     }
   };
