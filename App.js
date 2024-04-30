@@ -11,16 +11,14 @@ export default function App() {
     { text: 'play on the switch', key: '3' },
   ]);
 
-  // fungsi yang menghapu list dengan mengembalikan key yang tidak sama
   const pressHandler = (key) => {
     setTodos(prevTodos => {
-      return prevTodos.filter(todo => todo.key != key);
+      return prevTodos.filter(todo => todo.key !== key);
     });
   };
 
   const submitHandler = (text) => {
     if(text.length > 3){
-      setText('');
       setTodos(prevTodos => {
         return [
           { text, key: Math.random().toString() },
@@ -28,27 +26,26 @@ export default function App() {
         ];
       });
     } else {
-      Alert.alert("Oops!" /* for the title */,'Put todo over 3 letters!'/* for the content */,[
-        { text: 'Oke'/* for the botton close */, onPress: () => console.log("Alert Closed!") },
+      Alert.alert("Oops!", 'Todo must be over 3 letters!', [
+        { text: 'OK', onPress: () => console.log("Alert Closed!") },
       ]);
     }
   };
 
   return (
-    // Keyboard.dismiss -> ketika diclik bagian luar maka keyboard akan dismis
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss() }>
       <View style={styles.container}>
         <Header />
         <View style={styles.content}>
           <AddTodo submitHandler={submitHandler} />
-          <View style={styles.list}>
-            <FlatList
-              data={todos}
-              renderItem={({ item }) => (
-                <TodoItem item={item} pressHandler={pressHandler} />
-              )}
-            />
-          </View>
+          <FlatList
+            data={todos}
+            renderItem={({ item }) => (
+              <TodoItem item={item} pressHandler={pressHandler} />
+            )}
+            style={styles.list} // Style FlatList untuk menerapkan flexbox
+            contentContainerStyle={todos.length === 0 && styles.emptyList} // Style ketika daftar kosong
+          />
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -61,9 +58,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   content: {
+    flex: 1, // Menggunakan flex 1 agar konten dapat mengisi ruang yang tersedia
     padding: 40,
   },
   list: {
+    flex: 1, // Menggunakan flex 1 agar FlatList mengisi ruang yang tersedia
     marginTop: 20,
+  },
+  emptyList: {
+    justifyContent: 'center', // Pusatkan konten ketika daftar kosong
+    alignItems: 'center',
   },
 });
