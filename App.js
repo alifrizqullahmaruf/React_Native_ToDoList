@@ -5,18 +5,21 @@ import TodoItem from './components/TodoItem';
 import AddTodo from './components/AddTodo';
 
 export default function App() {
+  // Data yang ada pada item list
   const [todos, setTodos] = useState([
     { text: 'buy coffee', key: '1' },
     { text: 'create an app', key: '2' },
     { text: 'play on the switch', key: '3' },
   ]);
 
+  // fungsi yang digunnakan untuk menghapus item dengan mengganti key yang ada pada item tersebut
   const pressHandler = (key) => {
     setTodos(prevTodos => {
       return prevTodos.filter(todo => todo.key !== key);
     });
   };
 
+  // Fungsi yang di gunnakan untuk check apakahtextnya sudah sesuai dengan ketentuan, jika tidak maka akan muncul alert
   const submitHandler = (text) => {
     if(text.length > 3){
       setTodos(prevTodos => {
