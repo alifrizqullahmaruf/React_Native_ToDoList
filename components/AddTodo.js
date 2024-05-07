@@ -4,6 +4,7 @@ import { StyleSheet, View, TextInput, Button } from 'react-native';
 export default function AddTodo({ submitHandler }) {
   [text, setText] = useState('');
 
+  // mengatur dan memperbarui nilai input
   const changeHandler = (val) => {
     setText(val);
   };
